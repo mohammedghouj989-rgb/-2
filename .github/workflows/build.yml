@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
     - uses: actions/checkout@v4
@@ -25,7 +26,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.x'
+        channel: 'stable'
 
     - name: Install Dependencies
       run: |
@@ -36,6 +37,8 @@ jobs:
       run: |
         cd FletApp
         flet build apk --yes
+      env:
+        FLUTTER_ROOT: ${{ steps.flutter.outputs.flutter-path }}
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
